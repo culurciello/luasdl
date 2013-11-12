@@ -88,7 +88,7 @@ function process()
    frame = image.lena()--camera:forward()
 
    -- (2) transform it into Y space
-   frameY = frame[2]:reshape(1,512,512) -- just green component
+   frameY = image.rgb2y(frame)
    mean = frameY:mean()
    std = frameY:std()
    frameY:add(-mean)
@@ -123,11 +123,12 @@ end
 -- display function
 function display()
 	nframe = frame
-    for i,detect in ipairs(detections) do
+	for i,detect in ipairs(detections) do
 		win = luasdl.addrect(nframe, detect.x, detect.y, detect.w, detect.h, 5, {1, 0, 0})
 	end
 
 	luasdl.display(nframe)
+
 end
 
 while true do
